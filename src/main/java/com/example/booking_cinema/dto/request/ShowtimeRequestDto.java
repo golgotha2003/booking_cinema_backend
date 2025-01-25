@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShowtimeRequestDto {
+public class ShowTimeRequestDto {
     @NotNull(message = "movie id must be required")
     private Long movie_id;
 

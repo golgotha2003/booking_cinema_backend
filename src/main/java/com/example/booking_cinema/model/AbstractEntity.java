@@ -1,6 +1,5 @@
 package com.example.booking_cinema.model;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,19 +20,19 @@ import lombok.Setter;
 @Setter
 @Getter
 @MappedSuperclass
-public class AbstractEntity<T extends Serializable> implements Serializable{
+public class AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    T id;
+    private Long id;
 
     @CreatedBy
     @Column(name = "create_by")
-    T create_by;
+    private String create_by;
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    T update_by;
+    private String updated_by;
 
     @Column(name = "created_at")
     @CreationTimestamp

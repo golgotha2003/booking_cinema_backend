@@ -2,6 +2,8 @@ package com.example.booking_cinema.model;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -12,10 +14,13 @@ import com.example.booking_cinema.util.Gender;
 import com.example.booking_cinema.util.Role;
 import com.example.booking_cinema.util.UserStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +35,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbl_users")
-public class User extends AbstractEntity<Long> implements UserDetails {
+public class User extends AbstractEntity implements UserDetails {
 
     @Column(name = "first_name")
     private String firstName;
@@ -54,8 +59,8 @@ public class User extends AbstractEntity<Long> implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(name = "type")
-    private Role type;
+    @Column(name = "role")
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
@@ -64,6 +69,10 @@ public class User extends AbstractEntity<Long> implements UserDetails {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @Builder.Default
+    private Set<Booking> bookings = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
